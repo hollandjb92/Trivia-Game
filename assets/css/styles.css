@@ -49,3 +49,8 @@ html {
   margin-left: 530px;
   margin-top: 5px;
 }
+
+.btn {
+  color: #fff;
+  background-color: #DF9F28;
+}
