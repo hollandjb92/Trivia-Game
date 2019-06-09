@@ -127,8 +127,6 @@ let incorrectAnswers = 0;
 let skippedAnswers = 0;
 //time per question
 let time = 15;
-//a empty variable to use as a boolean for if the user answered the question or skipped
-let questionAnswered = null;
 //keep track of current question
 let currentQuestion = 0;
 let correctedCurrentQuestion = null;
@@ -148,15 +146,10 @@ $("#start").on("click", function () {
   startGame();
 })
 
-//restart game on click
-$("#restart").on("click", function () {
-  $(this).hide();
-  shuffleQuestions();
-  startGame();
-})
 
 //initializes timer. interval var needed to make Clear Interval simpler to use later
 function timer() {
+  time = 15;
   $("#timeRemaining").html("<h2>Time Remaining: " + time + "</h2>");
   interval = setInterval(startTimer, 1000);
 }
@@ -166,12 +159,10 @@ function startTimer() {
   $("#timeRemaining").html("<h2>Time Remaining: " + time + "</h2>");
   if (time < 1) {
     clearInterval(interval)
-    questionAnswered = false;
     showAnswer();
   }
 }
 
-//start game function
 function startGame() {
   //empty out question screens and clear variables
   correctAnswers = 0;
@@ -179,14 +170,18 @@ function startGame() {
   skippedAnswers = 0;
   currentQuestion = 0;
   correctedCurrentQuestion = currentQuestion + 1
-
   $("#numberIncorrect").empty();
   $("#numberCorrect").empty();
   $("#numberSkipped").empty();
+  nextQuestion();
+
+}
+
+//start game function
+function nextQuestion() {
   $("#rightOrWrong").empty();
   $("#correctAnswer").empty();
   $("#gif").empty();
-
 
   //displays current question # and the question itself
   $("#questionNumber").html("Question # " + (correctedCurrentQuestion) + " out of 20");
@@ -195,7 +190,7 @@ function startGame() {
   //create answers choices and accompanying radio buttons and data-* attributes (had to use for loop over For Each for this)
   for (i = 0; i < 4; i++) {
     let newDiv = $("<div>");
-    newDiv.html("<input type='radio' name='option' class='big'/>" + questionsArray[currentQuestion].answerChoices[i]);
+    newDiv.html("<label><input type='radio' name='option' class='big option' />" + questionsArray[currentQuestion].answerChoices[i] + "</label>");
     newDiv.attr({
       "data-index": i
     })
@@ -204,5 +199,57 @@ function startGame() {
 
   timer();
 
+  $(".option").on("click", function () {
+    userAnswer = $(this).closest("div").data("index");
+    console.log(userAnswer)
+    clearInterval(interval);
+    showAnswer();
+  });
+
+  function showAnswer() {
+    $("#answerChoices").empty();
+    $("#question").empty();
+    $("#questionNumber").closest("div").empty();
+
+    let correctAnswer = questionsArray[currentQuestion].answerChoices[questionsArray[currentQuestion].answerIndex];
+    let correctAnswerIndex = questionsArray[currentQuestion].answerIndex;
+
+    if (userAnswer === correctAnswerIndex) {
+      correctAnswers++;
+      $("#rightOrWrong").html("Correct!");
+    } else if (userAnswer != correctAnswerIndex) {
+      incorrectAnswers++;
+      $("#rightOrWrong").html("Incorrect");
+      $("#correctedAnswer").html("The correct choice was " + correctAnswer);
+    } else {
+      skippedAnswers++;
+      $("#rightOrWrong").html("You ran out of time!");
+      $("#correctedAnswer").html("The correct choice was " + correctAnswer);
+
+    }
+
+    $("#gif").html("<img src = " + questionsArray[currentQuestion].gif + ">");
+    //if all the questions have been answered
+    if (currentQuestion == questionsArray.length - 1) {
+      setTimeout(finalScore, 4000);
+    } else {
+      //increment current question and set the next question
+      currentQuestion++;
+      correctedCurrentQuestion++;
+      setTimeout(nextQuestion, 4000)
+    }
+
+  }
+
+  function finalScore() {
+    $("#rightOrWrong").empty();
+    $("#correctedAnswer").empty();
+    $("#gif").empty();
+
+    $("#numberCorrect").html("You got " + correctAnswers + " right");
+    $("#numberIncorrect").html("You got " + incorrectAnswers + " wrong");
+    $("#numberSkipped").html("You skipped " + skippedAnswers + " questions");
+
+  }
 
 }
