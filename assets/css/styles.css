@@ -1,0 +1,51 @@
+@font-face {
+  font-family: "Harry P";
+  src: url("../HARRYP.TTF");
+}
+
+body,
+html {
+  background: url(../images/background.jpg) no-repeat center fixed;
+  background-size: cover;
+  font-family: "Harry P";
+}
+
+#title {
+  background: -webkit-linear-gradient(top, #8f6B29, #FDE08D, #DF9F28);
+  background: linear-gradient(top, #8f6B29, #FDE08D, #DF9F28);
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+}
+
+#harry {
+  font-size: 180px;
+}
+
+#and,
+#the {
+  font-size: 20px;
+}
+
+#really,
+#trivia {
+  font-size: 40px;
+}
+
+#and {
+  margin-left: 170px;
+  margin-top: -60px;
+}
+
+#the {
+  margin-left: 240px;
+  margin-top: -3px;
+}
+
+#really {
+  margin-left: 350px;
+}
+
+#trivia {
+  margin-left: 530px;
+  margin-top: 5px;
+}
