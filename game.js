@@ -1,4 +1,5 @@
-let triviaQuestions = [{
+//array of question objects
+let questionsArray = [{
     question: "How many broomsticks are flown in a full game of Quidditch?",
     answerChoices: ["14", "16", "15", "28"],
     answerIndex: 2,
@@ -120,11 +121,88 @@ let triviaQuestions = [{
   }
 ]
 
-function shuffleQuestion() {
-  triviaQuestions.sort(() => Math.random() - 0.5);
-}
+//keeps tracks of correct, incorrect, and skipped answers to populate endgame screen 
+let correctAnswers = 0;
+let incorrectAnswers = 0;
+let skippedAnswers = 0;
+//time per question
+let time = 15;
+//a empty variable to use as a boolean for if the user answered the question or skipped
+let questionAnswered = null;
+//keep track of current question
+let currentQuestion = 0;
+let correctedCurrentQuestion = null;
+//store player answer in a variable
+let userAnswer = null;
+//store setInterval in a variable for ease of use
+let interval = null
 
+//shuffle the array at the beginning of each game
+function shuffleQuestions() {
+  questionsArray.sort(() => Math.random() - 0.5);
+}
+//start game on click
 $("#start").on("click", function () {
   $(this).hide();
+  shuffleQuestions();
   startGame();
 })
+
+//restart game on click
+$("#restart").on("click", function () {
+  $(this).hide();
+  shuffleQuestions();
+  startGame();
+})
+
+//initializes timer. interval var needed to make Clear Interval simpler to use later
+function timer() {
+  $("#timeRemaining").html("<h2>Time Remaining: " + time + "</h2>");
+  interval = setInterval(startTimer, 1000);
+}
+
+function startTimer() {
+  time--;
+  $("#timeRemaining").html("<h2>Time Remaining: " + time + "</h2>");
+  if (time < 1) {
+    clearInterval(interval)
+    questionAnswered = false;
+    showAnswer();
+  }
+}
+
+//start game function
+function startGame() {
+  //empty out question screens and clear variables
+  correctAnswers = 0;
+  incorrectAnswers = 0;
+  skippedAnswers = 0;
+  currentQuestion = 0;
+  correctedCurrentQuestion = currentQuestion + 1
+
+  $("#numberIncorrect").empty();
+  $("#numberCorrect").empty();
+  $("#numberSkipped").empty();
+  $("#rightOrWrong").empty();
+  $("#correctAnswer").empty();
+  $("#gif").empty();
+
+
+  //displays current question # and the question itself
+  $("#questionNumber").html("Question # " + (correctedCurrentQuestion) + " out of 20");
+  $("#question").html("<h3>" + questionsArray[currentQuestion].question + "</h3>");
+
+  //create answers choices and accompanying radio buttons and data-* attributes (had to use for loop over For Each for this)
+  for (i = 0; i < 4; i++) {
+    let newDiv = $("<div>");
+    newDiv.html("<input type='radio' name='option' class='big'/>" + questionsArray[currentQuestion].answerChoices[i]);
+    newDiv.attr({
+      "data-index": i
+    })
+    $("#answerChoices").append(newDiv);
+  }
+
+  timer();
+
+
+}

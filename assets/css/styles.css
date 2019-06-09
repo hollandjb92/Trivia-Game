@@ -8,6 +8,7 @@ html {
   background: url(../images/background.jpg) no-repeat center fixed;
   background-size: cover;
   font-family: "Harry P";
+
 }
 
 #title {
@@ -18,39 +19,59 @@ html {
 }
 
 #harry {
-  font-size: 180px;
+  font-size: 11.25rem;
 }
 
 #and,
 #the {
-  font-size: 20px;
+  font-size: 1.25rem;
 }
 
 #really,
 #trivia {
-  font-size: 40px;
+  font-size: 2.5rem;
 }
 
 #and {
-  margin-left: 170px;
-  margin-top: -60px;
+  margin-left: 10.625rem;
+  margin-top: -3.75rem;
 }
 
 #the {
-  margin-left: 240px;
-  margin-top: -3px;
+  margin-left: 15rem;
+  margin-top: -0.1875rem;
 }
 
 #really {
-  margin-left: 350px;
+  margin-left: 21.875rem;
 }
 
 #trivia {
-  margin-left: 530px;
-  margin-top: 5px;
+  margin-left: 33.125rem;
+  margin-top: 0.3125rem;
 }
 
 .btn {
   color: #fff;
   background-color: #DF9F28;
+  font-size: 30px;
+  margin-top: 50px;
+}
+
+.container {
+  color: #fff;
+  margin-top: 50px;
+  font-size: 50px;
+  letter-spacing: 1px;
+  line-height: 4rem;
+}
+
+input {
+  margin-right: 20px;
+  vertical-align: middle;
+}
+
+.big {
+  width: 1.25rem;
+  height: 1.25rem;
 }
