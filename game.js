@@ -134,6 +134,8 @@ let correctedCurrentQuestion = null;
 let userAnswer = null;
 //store setInterval in a variable for ease of use
 let interval = null
+//used to differentiate between an skipped question and an incorrect question
+let questionAnswered = null;
 
 //shuffle the array at the beginning of each game
 function shuffleQuestions() {
@@ -158,6 +160,7 @@ function startTimer() {
   $("#timeRemaining").text("Time Remaining: " + time);
   if (time < 1) {
     clearInterval(interval);
+    questionAnswered = false;
     showAnswer();
   }
 }
@@ -174,6 +177,7 @@ function startGame() {
 }
 //sets up the next question
 function nextQuestion() {
+  questionAnswered = true;
   //empty out showAnswer() text
   $("#rightOrWrong, #correctAnswer, #gif").empty();
   //displays current question # and the question itself
@@ -209,11 +213,11 @@ function showAnswer() {
   let correctAnswerIndex = questionsArray[currentQuestion].answerIndex;
 
   //if user choice matches index 
-  if (userAnswer === correctAnswerIndex) {
+  if (userAnswer === correctAnswerIndex && questionAnswered) {
     correctAnswers++;
     $("#rightOrWrong").text("Correct!");
     //if user choice doesn't match
-  } else if (userAnswer !== correctAnswerIndex) {
+  } else if (userAnswer !== correctAnswerIndex && questionAnswered) {
     incorrectAnswers++;
     $("#rightOrWrong").text("Incorrect");
     $("#correctAnswer").text("The correct choice was " + correctAnswer);
