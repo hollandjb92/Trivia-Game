@@ -135,21 +135,16 @@ let userAnswer = null;
 //store setInterval in a variable for ease of use
 let interval = null
 
-
-
 //shuffle the array at the beginning of each game
 function shuffleQuestions() {
   questionsArray.sort(() => Math.random() - 0.5);
 }
-
 //start game on click, restart game on click
 $("#start, #restart").on("click", function () {
   $(this).hide();
   shuffleQuestions();
   startGame();
 })
-
-
 //initializes timer at the beginning of each question
 function timer() {
   time = 10;
@@ -157,7 +152,6 @@ function timer() {
   //store setInterval in a variable to be cleared later
   interval = setInterval(startTimer, 1000);
 }
-
 //runs every second
 function startTimer() {
   time--;
@@ -167,7 +161,6 @@ function startTimer() {
     showAnswer();
   }
 }
-
 //after clicking the start/restart button
 function startGame() {
   //empty out div, clear variables, and go to question 1
@@ -179,7 +172,6 @@ function startGame() {
   $("#numberIncorrect, #numberCorrect, #numberSkipped").empty();
   nextQuestion();
 }
-
 //sets up the next question
 function nextQuestion() {
   //empty out showAnswer() text
@@ -194,10 +186,8 @@ function nextQuestion() {
     newDiv.attr("data-index", i)
     $("#answerChoices").append(newDiv);
   }
-
   //starts timer
   timer();
-
   //once user clicks a button, store their answer in a variable and move to showAnswer page
   $(".option").on("click", function () {
     userAnswer = $(this).closest("div").data("index");
@@ -239,10 +229,10 @@ function showAnswer() {
   if (currentQuestion == 19) {
     setTimeout(finalScore, 4000);
   } else {
-    //increment current question and set the next question
+    //increment current question variable and set the next question
     currentQuestion++;
     correctedCurrentQuestion++;
-    setTimeout(nextQuestion, 4000)
+    setTimeout(nextQuestion, 4000);
   }
 
 }
@@ -252,7 +242,7 @@ function finalScore() {
   //empty out showAnswer() divs
   $("#timeRemaining, #rightOrWrong, #correctAnswer, #gif").empty();
   //show restart button
-  $('#restart').addClass("btn btn-lg").show().text("Try Again");
+  $("#restart").addClass("btn btn-lg").show().text("Try Again");
   //show quiz stats
   $("#numberCorrect").text("You got " + correctAnswers + " right");
   $("#numberIncorrect").text("You got " + incorrectAnswers + " wrong");
